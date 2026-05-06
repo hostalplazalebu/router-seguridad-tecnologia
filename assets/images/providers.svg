@@ -1,0 +1,28 @@
+<svg width="1200" height="150" viewBox="0 0 1200 150" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .brand { font-family: 'Arial', sans-serif; font-weight: bold; font-size: 40px; }
+    .dahua { fill: #CC0000; }
+    .imou { fill: #F58220; }
+    .hikvision { fill: #D71920; }
+    .starlink { fill: #000000; letter-spacing: 2px; }
+    .tplink { fill: #4ACBD9; }
+  </style>
+  
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+  <!-- Dahua -->
+  <text x="100" y="90" class="brand dahua">alhua</text>
+  <text x="100" y="90" class="brand dahua" style="font-size:15px; letter-spacing: 2px;" dy="25">TECHNOLOGY</text>
+  
+  <!-- Imou -->
+  <text x="350" y="90" class="brand imou">Imou</text>
+  
+  <!-- Hikvision -->
+  <text x="550" y="90" class="brand hikvision">HIKVISION</text>
+  
+  <!-- Starlink -->
+  <text x="850" y="90" class="brand starlink">STARLINK</text>
+  
+  <!-- TP-Link -->
+  <text x="1100" y="90" class="brand tplink" text-anchor="end">tp-link</text>
+</svg>
