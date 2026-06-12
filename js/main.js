@@ -181,6 +181,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Dynamic News Render Module ---
+    const newsGrid = document.getElementById('publicNewsGrid');
+    const newsModal = document.getElementById('newsDetailModal');
+    const newsModalBody = document.getElementById('newsModalBody');
+
+    function renderPublicNews() {
+        if (!newsGrid) return;
+        
+        const newsList = (typeof ROUTER_NEWS_DATA !== 'undefined' && Array.isArray(ROUTER_NEWS_DATA)) ? ROUTER_NEWS_DATA : [];
+        
+        if (newsList.length === 0) {
+            newsGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-text-grey);">
+                    <p>No hay noticias publicadas en este momento.</p>
+                </div>
+            `;
+            return;
+        }
+
+        newsGrid.innerHTML = '';
+        
+        newsList.forEach((article) => {
+            const card = document.createElement('article');
+            card.className = 'news-card';
+            card.innerHTML = `
+                <div class="news-card-image-wrapper">
+                    <img src="${article.image || 'assets/images/security-camera.png'}" alt="${article.title}" class="news-card-image" onerror="this.src='assets/images/security-camera.png'">
+                </div>
+                <div class="news-card-content">
+                    <span class="news-card-date">📅 ${article.date}</span>
+                    <h3 class="news-card-title">${article.title}</h3>
+                    <p class="news-card-desc">${article.desc}</p>
+                    <button class="news-card-btn" onclick="openNewsModal(${article.id})">Leer Más &rarr;</button>
+                </div>
+            `;
+            newsGrid.appendChild(card);
+        });
+    }
+
+    function openNewsModal(id) {
+        if (!newsModal || !newsModalBody) return;
+        
+        const newsList = (typeof ROUTER_NEWS_DATA !== 'undefined' && Array.isArray(ROUTER_NEWS_DATA)) ? ROUTER_NEWS_DATA : [];
+        const article = newsList.find(item => item.id === id);
+        
+        if (!article) return;
+
+        newsModalBody.innerHTML = `
+            <div class="news-modal-hero">
+                <img src="${article.image || 'assets/images/security-camera.png'}" alt="${article.title}" class="news-modal-img" onerror="this.src='assets/images/security-camera.png'">
+            </div>
+            <div class="news-modal-details">
+                <span class="news-modal-date">📅 Publicado el ${article.date} · Por Aura (AI)</span>
+                <h2 class="news-modal-title">${article.title}</h2>
+                <div class="news-modal-text">${article.content}</div>
+                <div class="news-modal-cta-box">
+                    <p>¿Te interesa implementar esta tecnología de seguridad o conectividad?</p>
+                    <a href="https://wa.me/56978589090?text=Hola,%20leí%20su%20artículo%20sobre%20${encodeURIComponent(article.title)}%20y%20me%20gustaría%20cotizar" class="btn btn-primary" target="_blank">Cotizar por WhatsApp</a>
+                </div>
+            </div>
+        `;
+
+        newsModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeNewsModal() {
+        if (!newsModal) return;
+        newsModal.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    window.openNewsModal = openNewsModal;
+    window.closeNewsModal = closeNewsModal;
+
+    // Run render
+    renderPublicNews();
+
     // CSS class for visible state
     const style = document.createElement('style');
     style.innerHTML = `
